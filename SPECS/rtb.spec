@@ -242,8 +242,11 @@ cd ..
 cd %{sourcetree1}
 mv LICENSE LICENSE-rtb-wrapper
 mv README.md README-rtb-wrapper.md
-sed -i.previous '{s+cmd="rsync_tmbackup.sh+cmd="'%{installtree}'/rsync_tmbackup.sh+}' rtb-wrapper.sh
-sed -i.previous '{s+${HOME}/.rsync_tmbackup+${HOME}/.config/rtb+}' rtb-wrapper.sh
+cp -a rtb-wrapper.sh rtb-wrapper.orig.sh
+sed -i.previous1 '{s+cmd="rsync_tmbackup.sh+cmd="'%{installtree}'/rsync_tmbackup.sh --log-dir '\''$HOME/.local/log/rtb'\''+}' rtb-wrapper.sh
+# ' added here so that syntax highlighting works again. Poor confused vim.
+sed -i.previous2 '{s+profile_dir="${config_dir}/conf.d"+profile_dir="${config_dir}"+}' rtb-wrapper.sh
+sed -i.previous3 '{s+${HOME}/.rsync_tmbackup+${HOME}/.config/rtb+}' rtb-wrapper.sh
 cd ..
 
 
@@ -264,7 +267,7 @@ cd ..
 #   _sharedstatedir is /var/lib
 #   _prefix or _usr = /usr
 #   _libdir = /usr/lib or /usr/lib64 (depending on system)
-# This is used to quiet rpmlint who can't seem to understand that /usr/lib is
+# This is used to quiet rpmlint who cannot seem to understand that /usr/lib is
 # still used for certain things.
 %define _rawlib lib
 %define _usr_lib /usr/%{_rawlib}
@@ -279,8 +282,6 @@ cd ..
 # Create directories
 # /usr/bin/
 install -d -m755 -p %{buildroot}%{_bindir}
-# /var/log/rtb
-install -d -m750 %{buildroot}%{_localstatedir}/log/%{name}
 # /usr/share/rtb
 install -d %{buildroot}%{installtree}
 
@@ -309,8 +310,6 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 %doc %{sourcetree1}/README*
 
 # The directories...
-# /var/log/rtb/
-%dir %attr(750,%{systemuser},%{systemgroup}) %{_localstatedir}/log/%{name}
 # /usr/share/rtb/ and /usr/share/rtb/*
 %{installtree}
 
@@ -318,7 +317,7 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 %{_bindir}/%{name}
 
 # Logs
-# log file - doesn't initially exist, but we still own it
+# log file - does not initially exist, but we still own it
 #%%attr(644,root,root) %%{_sysconfdir}/logrotate.d/%%{name}
 
 
@@ -338,3 +337,5 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-1.taw
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-0.1.testing.taw
   - Initial build.
+  - Config directory set to default to $HOME/.config/rtb
+  - Log directory is set to default to $HOME/.local/log/rtb

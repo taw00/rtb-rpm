@@ -22,7 +22,7 @@ sudo dnf copr enable taw/rtb
 sudo dnf install rtb
 ```
 
-All `*.src.rpm` packages provided in this GitHub repository should be signed with [my GPG key](https://keybase.io/toddwarner/key.asc)<br />Binary packages are delivered by the COPR build system as enabled above. Those packages are signed with the [Fedora Project's](https://fedoraproject.org/) [COPR GPG signing key](https://copr-be.cloud.fedoraproject.org/results/taw/rtb/pubkey.gpg)
+All `*.src.rpm` packages provided in rtb-rpm GitHub repository should be signed with [my GPG key](https://keybase.io/toddwarner/key.asc)<br />Binary packages are delivered by the COPR build system as enabled above. Those packages are signed with the [Fedora Project's](https://fedoraproject.org/) [COPR GPG signing key](https://copr-be.cloud.fedoraproject.org/results/taw/rtb/pubkey.gpg)
 
 ### The upstream projects
 

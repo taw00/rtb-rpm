@@ -63,10 +63,9 @@ Version: %{vermajor}.%{verminor}
 %define s1version 0.0.20190228
 
 # RELEASE - can edit
-%if %{targetIsProduction}
-  %define _pkgrel 1
-%else
-  %define _pkgrel 0.1
+%define _pkgrel 2
+%if ! %{targetIsProduction}
+  %define _pkgrel 1.1
 %endif
 
 # MINORBUMP - can edit
@@ -121,7 +120,9 @@ Release: %{_release}
 
 Source0: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree0}.tar.gz
 Source1: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree1}.tar.gz
-#Source2: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%%{source_contrib}.tar.gz
+Source2: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/rtb-README.md
+Source3: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/rtb-LICENSE
+#Sources4: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%%{source_contrib}.tar.gz
 BuildArch: noarch
 
 Requires: rsync
@@ -171,6 +172,9 @@ mkdir -p %{sourceroot}
 # sourcecode
 %setup -q -T -D -a 0 -n %{sourceroot}
 %setup -q -T -D -a 1 -n %{sourceroot}
+# setup will leave us in {sourceroot}
+mv ../../SOURCES/rtb-README.md ../%{sourceroot}/README.md
+mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 
 # For debugging purposes...
 %if ! %{targetIsProduction}
@@ -308,6 +312,8 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 %doc %{sourcetree0}/README*
 %license %{sourcetree1}/LICENSE*
 %doc %{sourcetree1}/README*
+%license ../%{sourceroot}/LICENSE
+%doc ../%{sourceroot}/README.md
 
 # The directories...
 # /usr/share/rtb/ and /usr/share/rtb/*
@@ -334,6 +340,10 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-2.taw
+* Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-1.1.testing.taw
+  - adding LICENSE and README.md files.
+
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-1.taw
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-0.1.testing.taw
   - Initial build.

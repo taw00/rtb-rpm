@@ -22,7 +22,7 @@ sudo dnf copr enable taw/rtb
 sudo dnf install rtb
 ```
 
-All `*.src.rpm` packages provided in rtb-rpm GitHub repository should be signed with [my GPG key](https://keybase.io/toddwarner/key.asc)<br />Binary packages are delivered by the COPR build system as enabled above. Those packages are signed with the [Fedora Project's](https://fedoraproject.org/) [COPR GPG signing key](https://copr-be.cloud.fedoraproject.org/results/taw/rtb/pubkey.gpg)
+All `*.src.rpm` packages provided in rtb-rpm GitHub repository should be signed with [my GPG key](https://keybase.io/toddwarner/key.asc)<br />Binary packages are delivered by the COPR build system as enabled above. Those packages are signed with the [Fedora Project's](https://fedoraproject.org/) [COPR GPG signing key](https://download.copr.fedorainfracloud.org/results/taw/rtb/pubkey.gpg)
 
 ### The upstream projects
 
@@ -30,6 +30,7 @@ The underlying projects (upstream):
 - https://github.com/laurent22/rsync-time-backup
 - https://github.com/thomas-mc-work/rtb-wrapper
 
+### My changes
 `rtb` is essentially a symlink to `rtb-wrapper.sh` with two changes:
 - The default configuration directory is `$HOME/.config/rtb`
 - The log directory is set to `$HOME/.local/log/rtb/`

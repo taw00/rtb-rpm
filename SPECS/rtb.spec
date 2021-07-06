@@ -186,6 +186,7 @@ mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 ======== OpenSUSE version: %{suse_version} %{sle_version}
 -------- Leap 15.1  will report as 1500 150100
 -------- Leap 15.2  will report as 1500 150200
+-------- Leap 15.3  will report as 1500 150300
 -------- Tumbleweed will report as 1550 undefined"
 %endif
 

@@ -14,7 +14,7 @@ Profiles can be defined for different backup scenarios.
 
 ```sh
 # Initial installation of the COPR repository
-sudo dnf copr enable taw/rtb 
+sudo dnf copr enable taw/rtb
 ```
 
 ```sh
@@ -32,8 +32,8 @@ The underlying projects (upstream):
 
 ### My changes
 `rtb` is essentially a symlink to `rtb-wrapper.sh` with two changes:
-- The default configuration directory is `$HOME/.config/rtb`
-- The log directory is set to `$HOME/.local/log/rtb/`
+- The default configuration directory is `$HOME/.config/rtb` (instead of `$HOME/.rsync_tmbackup/`)
+- The log directory is set to `$HOME/.local/log/rtb/` (instead of `$HOME/.rsync_tmbackup/`)
 
 ### How-To
 

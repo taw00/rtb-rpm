@@ -1,9 +1,12 @@
 # rtb.spec
 # vim:tw=0:ts=2:sw=2:et:
 #
-# rtb is rsync-time-backup and the rtb-wrapper extension all 
 # rsync-time-backup is a neat project created by Laurent Cozic.
-# rtb-wrapper is an extension to that projected created by Thomas McWork
+# rtb-wrapper is an extension to that project created by Thomas McWork
+#
+# rtb, this package, neatly provides both and wraps that wrapper in a
+# tidier configuration and convenient executable
+#
 # https://github.com/laurent22/rsync-time-backup
 # https://github.com/thomas-mc-work/rtb-wrapper
 #
@@ -17,58 +20,31 @@
 #   - rtb-wrapper: Apache License 2.0
 #     Explained: https://choosealicense.com/licenses/apache-2.0/
 #
-# ---
-#
-#
-# Package (RPM) name-version-release.
-#
-# <name>-<version>-<release>
-# ...version is (can be many decimals):
-# <vermajor>.<verminor>
-# ...where release is:
-# <pkgrel>[.<extraver>][.<snapinfo>].DIST[.<minorbump>]
-# ...all together now:
-# <name>-<vermajor.<verminor>-<pkgrel>[.<extraver>][.<snapinfo>].DIST[.<minorbump>]
-#
-# Note about the pattern for release iterations (ie. the release value of
-# name-version-release):
-#     If you are still in development, but the production package is expected
-#     to have a release value of 8 (previous release was 7) for example, you
-#     always work one step back (in the 7's) and add another significant digit.
-#     I.e., release value of 7.1, 7.2, 7.3, etc... are all pre-production
-#     release nomenclatures for an eventual release numbered at 8. When we go
-#     into production, we "round up" and drop the decimal and probably all the
-#     snapinfo as well.  specpattern-1.0.1-7.3.beta2 --> specpattern-1.0.1-8
-#
-# Source tarballs that I am using to create this...
-# - specpattern-1.0.1.tar.gz
-# - specpattern-1.0-contrib.tar.gz
-#
 
 Name: rtb
 Summary: a time-machine-like incremental backup utility
 #BuildArch: noarch
 
-%define targetIsProduction 1
+%define isTestBuild 1
 
-# VERSION - can edit
-# eg. 1.0.1
+%define s0version 20231217
+%define s1version 20190228
+
+# VERSION
 %define vermajor 0.0
-%define verminor 20191105
+%define verminor s0version
 Version: %{vermajor}.%{verminor}
 
 %define s0name rsync-time-backup
-%define s0version 0.0.20191105
 %define s1name rtb-wrapper
-%define s1version 0.0.20190228
 
-# RELEASE - can edit
-%define _pkgrel 2
-%if ! %{targetIsProduction}
-  %define _pkgrel 1.1
+# RELEASE
+%define _pkgrel 1
+%if %{isTestBuild}
+  %define _pkgrel 0.1
 %endif
 
-# MINORBUMP - can edit
+# MINORBUMP
 %undefine minorbump
 %define minorbump taw
 
@@ -78,7 +54,7 @@ Version: %{vermajor}.%{verminor}
 
 # eg. 1 (prod) or 0.6.testing (pre-prod)
 %define _snapinfo testing
-%if %{targetIsProduction}
+%if ! %{isTestBuild}
   %undefine _snapinfo
 %endif
 %if 0%{?_snapinfo:1}
@@ -108,14 +84,14 @@ Release: %{_release}
 
 # Extracted source tree example structure (extracted in {_builddir})
 #   BUILD/sourceroot         BUILD/{name}-0.0
-#         \_sourcetree0             \_{s0name}-0.0.20191105
-#         \_sourcetree1             \_{s1name}-0.0.20190228
-#         \_source_contrib          \_{name}-0.0-contrib (not in this RPM)
+#         \_sourcetree0             \_{s0name}-20231217
+#         \_sourcetree1             \_{s1name}-0.0.20231217
+#         \_source_contrib          \_{name}-contrib (not in this RPM)
 #   BUILDROOT/installtree    BUILDROOT/usr/share/{name}
 %define sourceroot %{name}-%{vermajor}
 %define sourcetree0 %{s0name}-%{s0version}
 %define sourcetree1 %{s1name}-%{s1version}
-%define source_contrib %{name}-%{vermajor}-contrib
+%define source_contrib %{name}-contrib
 %define installtree %{_datadir}/%{name}
 
 Source0: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree0}.tar.gz
@@ -135,7 +111,7 @@ BuildRequires: ca-certificates-cacert ca-certificates-mozilla ca-certificates
 %endif
 
 #t0dd: for build environment introspection
-%if ! %{targetIsProduction}
+%if %{isTestBuild}
 BuildRequires: tree vim-enhanced less findutils dnf
 %endif
 
@@ -177,7 +153,7 @@ mv ../../SOURCES/rtb-README.md ../%{sourceroot}/README.md
 mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 
 # For debugging purposes...
-%if ! %{targetIsProduction}
+%if %{isTestBuild}
   cd .. ; /usr/bin/tree -df -L 1 %{sourceroot} ; cd -
 %endif
 
@@ -341,6 +317,12 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Sat Jan 20 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-1.taw
+* Sat Jan 20 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-0.1.testing.taw
+  - updated to latest tree (as of 2023-12-17)
+  - changed the name schemes for the two source tarballs a bit
+  - fliped the "is this a test build" logic in the spec file
+
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-2.taw
 * Sat Jun 06 2020 Todd Warner <t0dd_at_protonmail.com> 0.0.20191105-1.1.testing.taw
   - adding LICENSE and README.md files.

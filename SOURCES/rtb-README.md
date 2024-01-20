@@ -14,7 +14,7 @@ Profiles can be defined for different backup scenarios.
 
 ```sh
 # Initial installation of the COPR repository
-sudo dnf copr enable taw/rtb 
+sudo dnf copr enable taw/rtb
 ```
 
 ```sh

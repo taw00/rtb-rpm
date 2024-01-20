@@ -32,7 +32,7 @@ Summary: a time-machine-like incremental backup utility
 
 # VERSION
 %define vermajor 0.0
-%define verminor s0version
+%define verminor %{s0version}
 Version: %{vermajor}.%{verminor}
 
 %define s0name rsync-time-backup

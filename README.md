@@ -113,9 +113,8 @@ If that target was via ssh, it may look something like `TARGET="todd@myserver:so
 rtb backup home-documents
 ```
 
-Note, run the first time, it will likely yell that you need to touch a
-`backup.marker` file in the target directory. Do what the script does and run
-it again. This is essentially an "are you sure?" step.
+> **IMPORTANT NOTE:**  
+> Run the first time, the script will likely yell that you need to `touch` a `backup.marker` file in the target directory. Follow the instructions messaged by the script and then run the backup again. This is essentially an "are you sure?" step.
 
 7. Restore it!
 ```sh

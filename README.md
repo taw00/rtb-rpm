@@ -118,7 +118,9 @@ Note, run the first time, it will likely yell that you need to touch a
 it again. This is essentially an "are you sure?" step.
 
 7. Restore it!
+```sh
 rtb restore home-documents
+```
 
 ### More Information
 

@@ -114,7 +114,7 @@ rtb backup home-documents
 ```
 
 > **IMPORTANT NOTE:**  
-> Run the first time, the script will likely yell that you need to `touch` a `backup.marker` file in the target directory. Follow the instructions messaged by the script and then run the backup again. This is essentially an "are you sure?" step.
+> Run the first time, the script will likely yell that you need to `touch` a `…/backup.marker` file in the target directory. Follow the instructions messaged by the script and then run the backup again. This is essentially an "are you sure?" step.
 
 7. Restore it!
 ```sh

@@ -45,7 +45,7 @@ mkdir -p $HOME/.config/rtb
    filesystem, but for our example, we are using a folder in the
    `/tmp/mybackups` directory.
 3. Create an initial backup profile: `$HOME/.config/rtb/home-documents.inc`
-```text
+```sh
 SOURCE="$HOME/Documents"
 TARGET="/tmp/mybackups/Documents"
 EXCLUDE_FILE="$HOME/.config/rtb/home-documents.excludes.lst"
@@ -55,7 +55,7 @@ If that target was via ssh, it may look something like `TARGET="todd@myserver:so
 4. Edit your master home directory excludes list:  
    `$HOME/.config/rtb/home.excludes.lst`  
    It might look something like this.
-```diff
+```plaintext
 # home.excludes.lst — my home directory master list of excludes
 # Assumption: SOURCE="$HOME"
 #
@@ -93,7 +93,7 @@ If that target was via ssh, it may look something like `TARGET="todd@myserver:so
 
 5. Create your documents excludes list 
    (`$HOME/.config/rtb/home-documents.excludes.lst`):
-```diff
+```plaintext
 # home-documents.excludes.lst
 # Assumption: SOURCE="$HOME/Documents"
 # Certain things are explicitely permitted in this example and everything else

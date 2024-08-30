@@ -37,11 +37,12 @@ Version: %{vermajor}.%{verminor}
 
 %define s0name rsync-time-backup
 %define s1name rtb-wrapper
+%define s2name rtb-contrib
 
 # RELEASE
-%define _pkgrel 1
+%define _pkgrel 2
 %if %{isTestBuild}
-  %define _pkgrel 0.1
+  %define _pkgrel 1.1
 %endif
 
 # MINORBUMP
@@ -84,20 +85,20 @@ Release: %{_release}
 
 # Extracted source tree example structure (extracted in {_builddir})
 #   BUILD/sourceroot         BUILD/{name}-0.0
-#         \_sourcetree0             \_{s0name}-20231217
-#         \_sourcetree1             \_{s1name}-0.0.20231217
-#         \_source_contrib          \_{name}-contrib (not in this RPM)
+#         \_sourcetree0             \_rsync-time-backup-20231217
+#         \_sourcetree1             \_rtb-wrapper-20190228
+#         \_source_contrib          \_rtb-contrib
 #   BUILDROOT/installtree    BUILDROOT/usr/share/{name}
 %define sourceroot %{name}-%{vermajor}
 %define sourcetree0 %{s0name}-%{s0version}
 %define sourcetree1 %{s1name}-%{s1version}
+%define sourcetree2 %{s2name}
 %define source_contrib %{name}-contrib
 %define installtree %{_datadir}/%{name}
 
 Source0: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree0}.tar.gz
 Source1: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree1}.tar.gz
-Source2: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/rtb-README.md
-Source3: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/rtb-LICENSE
+Source2: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%{sourcetree2}.tar.gz
 #Sources4: https://github.com/taw00/rtb-rpm/raw/master/SOURCES/%%{source_contrib}.tar.gz
 BuildArch: noarch
 
@@ -148,9 +149,8 @@ mkdir -p %{sourceroot}
 # sourcecode
 %setup -q -T -D -a 0 -n %{sourceroot}
 %setup -q -T -D -a 1 -n %{sourceroot}
+%setup -q -T -D -a 2 -n %{sourceroot}
 # setup will leave us in {sourceroot}
-mv ../../SOURCES/rtb-README.md ../%{sourceroot}/README.md
-mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 
 # For debugging purposes...
 %if %{isTestBuild}
@@ -268,6 +268,8 @@ install -d %{buildroot}%{installtree}
 
 install -m755 %{sourcetree0}/rsync*.sh %{buildroot}%{installtree}
 install -m755 %{sourcetree1}/rtb*.sh %{buildroot}%{installtree}
+mv ../../SOURCES/rtb-README.md ../%{sourceroot}/README.md
+mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 
 # Binaries - a little ugly - symbolic link creation
 ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
@@ -286,11 +288,11 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 
 %defattr(-,root,root,-)
 %license %{sourcetree0}/LICENSE*
-%doc %{sourcetree0}/README*
 %license %{sourcetree1}/LICENSE*
+%license %{sourcetree2}/LICENSE
+%doc %{sourcetree0}/README*
 %doc %{sourcetree1}/README*
-%license ../%{sourceroot}/LICENSE
-%doc ../%{sourceroot}/README.md
+%doc %{sourcetree2}/README.md
 
 # The directories...
 # /usr/share/rtb/ and /usr/share/rtb/*
@@ -317,6 +319,11 @@ ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Fri Aug 30 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-2.taw
+* Fri Aug 30 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-1.1.testing.taw
+  - Extra license and readme files now in an rtb-contrib tarball.  
+    There was an issue building on Fedora 41 until I did this.
+
 * Sat Jan 20 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-1.taw
 * Sat Jan 20 2024 Todd Warner <t0dd_at_protonmail.com> 0.0.20231217-0.1.testing.taw
   - updated to latest tree (as of 2023-12-17)

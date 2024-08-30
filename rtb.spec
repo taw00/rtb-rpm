@@ -268,8 +268,6 @@ install -d %{buildroot}%{installtree}
 
 install -m755 %{sourcetree0}/rsync*.sh %{buildroot}%{installtree}
 install -m755 %{sourcetree1}/rtb*.sh %{buildroot}%{installtree}
-mv ../../SOURCES/rtb-README.md ../%{sourceroot}/README.md
-mv ../../SOURCES/rtb-LICENSE ../%{sourceroot}/LICENSE
 
 # Binaries - a little ugly - symbolic link creation
 ln -s %{installtree}/rtb-wrapper.sh %{buildroot}%{_bindir}/%{name}

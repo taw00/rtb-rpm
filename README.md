@@ -42,8 +42,9 @@ The underlying projects (upstream):
 mkdir -p $HOME/.config/rtb
 ```
 2. Decide where you are backing things up to. Personally, I use the keybase
-   filesystem, but for our example, we are using a folder in the
-   `/tmp/mybackups` directory.
+   filesystem combined with the `tar` command (keybase doesn't preserve
+   permissions as you would expect), but for our example, we are using a folder
+   in the `/tmp/mybackups` directory.
 3. Create an initial backup profile: `$HOME/.config/rtb/home-documents.inc`
 ```sh
 SOURCE="$HOME/Documents"
